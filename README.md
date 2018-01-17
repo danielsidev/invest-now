@@ -29,8 +29,9 @@ Onde as variáveis representam:
 ```
 let vF; /* [ VF ] Valor Futuro ( Valor final, acrescido os juros, resgatado )*/
 let vP; /* [ PV ] Valor Presente (Valor inicial que  a pessoa possui ) */
-let i ;   /* Taxa de Juros % ( ao mês ) */
-let n ;  /* Tempo de Investimento ( Período em meses )*/
+let dM; /* Depósitos Mensais Periódicos */
+let i ; /* Taxa de Juros % ( ao mês ) */
+let n ; /* Tempo de Investimento ( Período em meses )*/
 ```
 ### Instalação
 
