@@ -10318,6 +10318,7 @@ $(document).ready(function () {
       $("#despositos-mensais").fadeOut();
       periodoTaxa  = "ano";
       periodoTempo ="anos";
+      $("#deposito").val(0);
     }else if(tipo=="mes"){
       $("#despositos-mensais").fadeIn();
       periodoTaxa  = "mês";
