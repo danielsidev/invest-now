@@ -10368,7 +10368,10 @@ $(document).ready(function () {
               $("#resultado").append("<h2>RESGATE DO DE INVESTIMENTO EM "+parcelas+" "+((parcelas>1)?periodoTaxa+'s':periodoTaxa)+"</h2><br>");
               $("#resultado").append("O Investimento Resgatado é "+simulador.valorResgatado()+"<hr>");
               $("#resultado").append("Com Taxa de Juros de "+taxa+"% ao "+periodoTaxa+". <hr>");
-              $("#resultado").append("Com depósitos Mensais de: "+simulador.getDm()+"<hr>");
+              if(tipoPeriodo==="mes"){
+              $("#resultado").append("Com depósitos Mensais de: "+simulador.getDm()+"<hr>");  
+              }
+
      }else{
          alert("Preencha o valor, a taxa e o tempo de investimento!");
      }
