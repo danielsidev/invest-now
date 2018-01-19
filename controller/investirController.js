@@ -1,11 +1,12 @@
 "use strict"
 class investir{
-    constructor(vP, dM='0', i, n){
+    constructor(vP, dM='0', i, n, periodo){
         this.vF         = 0;  /* Valor Futuro  a ser resgatado */
         this.vP         = vP; /* Valor Presente(Valor do Financiamento) */
         this.dM         = dM; /* Depósito Mensail(Periódico) => Pode ser zero(0)*/
         this.i          = i;  /* Taxa de Juros ( ao mês)*/
         this.n          = n;  /* Número de Parcelas(Período)*/
+        this.periodo    = periodo; /* Ao mês ou Ao ano */
     }
     tratarMascaraReal(){
         let vp  = this.vP.replace(".","");

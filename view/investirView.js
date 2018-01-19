@@ -7,9 +7,11 @@ $(document).ready(function () {
   $("div.campo input[type=radio]").change(function(){
     let tipo = $('input[name=tipo]:checked').val();
     if(tipo=="ano"){
+      $("#despositos-mensais").fadeOut();
       periodoTaxa  = "ano";
       periodoTempo ="anos";
     }else if(tipo=="mes"){
+      $("#despositos-mensais").fadeIn();
       periodoTaxa  = "mês";
       periodoTempo = "meses";
     }
@@ -42,16 +44,17 @@ $(document).ready(function () {
       deposito = 0;
     }
      if(valor!=="" && taxa!=="" && parcelas!==""){
-        let simulador = new investir(valor, deposito, taxa, parcelas);
+       if(tipoPeriodo==="ano"){
+         periodoTaxa  = "ano";
+         periodoTempo ="anos";
+       }else if(tipoPeriodo==="mes"){
+         periodoTaxa  = "mês";
+         periodoTempo = "meses";
+       }
+        let simulador = new investir(valor, deposito, taxa, parcelas, tipoPeriodo);
             simulador.tratarMascaraReal();/* Remove a máscara de 0.000,00 */
             simulador.formataDados(); /* Faz as conversões para Int e Float */
-            if(tipoPeriodo==="ano"){
-              periodoTaxa  = "ano";
-              periodoTempo ="anos";
-            }else if(tipoPeriodo==="mes"){
-              periodoTaxa  = "mês";
-              periodoTempo = "meses";
-            }
+
               $("#resultado").html("");
               $("#resultado").append("<h2>RESGATE DO DE INVESTIMENTO EM "+parcelas+" "+((parcelas>1)?periodoTaxa+'s':periodoTaxa)+"</h2><br>");
               $("#resultado").append("O Investimento Resgatado é "+simulador.valorResgatado()+"<hr>");

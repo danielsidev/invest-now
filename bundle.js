@@ -1,12 +1,13 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict"
 class investir{
-    constructor(vP, dM='0', i, n){
+    constructor(vP, dM='0', i, n, periodo){
         this.vF         = 0;  /* Valor Futuro  a ser resgatado */
         this.vP         = vP; /* Valor Presente(Valor do Financiamento) */
         this.dM         = dM; /* Depósito Mensail(Periódico) => Pode ser zero(0)*/
         this.i          = i;  /* Taxa de Juros ( ao mês)*/
         this.n          = n;  /* Número de Parcelas(Período)*/
+        this.periodo    = periodo; /* Ao mês ou Ao ano */
     }
     tratarMascaraReal(){
         let vp  = this.vP.replace(".","");
@@ -10314,9 +10315,11 @@ $(document).ready(function () {
   $("div.campo input[type=radio]").change(function(){
     let tipo = $('input[name=tipo]:checked').val();
     if(tipo=="ano"){
+      $("#despositos-mensais").fadeOut();
       periodoTaxa  = "ano";
       periodoTempo ="anos";
     }else if(tipo=="mes"){
+      $("#despositos-mensais").fadeIn();
       periodoTaxa  = "mês";
       periodoTempo = "meses";
     }
@@ -10349,16 +10352,17 @@ $(document).ready(function () {
       deposito = 0;
     }
      if(valor!=="" && taxa!=="" && parcelas!==""){
-        let simulador = new investir(valor, deposito, taxa, parcelas);
+       if(tipoPeriodo==="ano"){
+         periodoTaxa  = "ano";
+         periodoTempo ="anos";
+       }else if(tipoPeriodo==="mes"){
+         periodoTaxa  = "mês";
+         periodoTempo = "meses";
+       }
+        let simulador = new investir(valor, deposito, taxa, parcelas, tipoPeriodo);
             simulador.tratarMascaraReal();/* Remove a máscara de 0.000,00 */
             simulador.formataDados(); /* Faz as conversões para Int e Float */
-            if(tipoPeriodo==="ano"){
-              periodoTaxa  = "ano";
-              periodoTempo ="anos";
-            }else if(tipoPeriodo==="mes"){
-              periodoTaxa  = "mês";
-              periodoTempo = "meses";
-            }
+
               $("#resultado").html("");
               $("#resultado").append("<h2>RESGATE DO DE INVESTIMENTO EM "+parcelas+" "+((parcelas>1)?periodoTaxa+'s':periodoTaxa)+"</h2><br>");
               $("#resultado").append("O Investimento Resgatado é "+simulador.valorResgatado()+"<hr>");
