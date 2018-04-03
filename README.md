@@ -49,5 +49,5 @@ let n ; /* Tempo de Investimento ( Período em meses )*/
 
 - O modelo foi feito utilizando alguns recursos do ES6, por isso usei o Browserify, logo a cada alteração na view ou no controller é necessário rodar o comando no terminal novamente para empacotar o código em bundle.js
 ```
-browserify ./view/financiarView.js -o ./bundle.js
+browserify ./view/investirView.js -o ./bundle.js
 ```

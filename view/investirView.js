@@ -3,17 +3,16 @@ let $ = require("jquery");
 $(document).ready(function () {
   let periodoTaxa  = "mês";
   let periodoTempo = "meses";
+  let periodoResgate = "meses";
 
   $("div.campo input[type=radio]").change(function(){
     let tipo = $('input[name=tipo]:checked').val();
     if(tipo=="ano"){
-      $("#despositos-mensais").fadeOut();
-      periodoTaxa  = "ano";
+      //$("#despositos-mensais").fadeOut();
       periodoTempo ="anos";
-      $("#deposito").val(0);
+      //$("#deposito").val(0);
     }else if(tipo=="mes"){
       $("#despositos-mensais").fadeIn();
-      periodoTaxa  = "mês";
       periodoTempo = "meses";
     }
     $("#periodoTaxa").html(periodoTaxa);
@@ -46,23 +45,31 @@ $(document).ready(function () {
     }
      if(valor!=="" && taxa!=="" && parcelas!==""){
        if(tipoPeriodo==="ano"){
-         periodoTaxa  = "ano";
-         periodoTempo ="anos";
+         periodoTaxa  = "mês";
+         periodoTempo ="ano";
+         periodoResgate = (parcelas>1)?parcelas+" anos":parcelas+" ano";
+         parcelas = parcelas*12;
+
        }else if(tipoPeriodo==="mes"){
          periodoTaxa  = "mês";
          periodoTempo = "meses";
+         periodoResgate = (parcelas>1)?parcelas+" meses":parcelas+" mês";
        }
         let simulador = new investir(valor, deposito, taxa, parcelas, tipoPeriodo);
             simulador.tratarMascaraReal();/* Remove a máscara de 0.000,00 */
             simulador.formataDados(); /* Faz as conversões para Int e Float */
-
+              let valorResgatado = simulador.valorResgatado();
+              let investido = parseFloat(valor)+(parseFloat(deposito)*parseInt(parcelas));
+              let redimentoJuros = simulador.vF-investido;
+                  investido = simulador.formataMascara('BRL',investido);
+                  redimentoJuros = simulador.formataMascara('BRL',redimentoJuros);
               $("#resultado").html("");
-              $("#resultado").append("<h2>RESGATE DO DE INVESTIMENTO EM "+parcelas+" "+((parcelas>1)?periodoTaxa+'s':periodoTaxa)+"</h2><br>");
-              $("#resultado").append("O Investimento Resgatado é "+simulador.valorResgatado()+"<hr>");
+              $("#resultado").append("<h2>RESGATE DO DE INVESTIMENTO EM "+periodoResgate+"</h2><br>");
+              $("#resultado").append("O valor investido foi de "+investido+"<hr>");
+              $("#resultado").append("Os juros recebidos foram de "+redimentoJuros+"<hr>");
+              $("#resultado").append("O Investimento Resgatado é "+valorResgatado+"<hr>");
               $("#resultado").append("Com Taxa de Juros de "+taxa+"% ao "+periodoTaxa+". <hr>");
-              if(tipoPeriodo==="mes"){
-              $("#resultado").append("Com depósitos Mensais de: "+simulador.getDm()+"<hr>");  
-              }
+              $("#resultado").append("Com depósitos Mensais de: "+simulador.getDm()+"<hr>");
 
      }else{
          alert("Preencha o valor, a taxa e o tempo de investimento!");
